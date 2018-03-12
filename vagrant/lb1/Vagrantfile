@@ -1,0 +1,38 @@
+Vagrant.configure("2") do |config|
+  config.vm.define "web01" do |web01|
+    web01.vm.box = "ubuntu/xenial64"
+    web01.vm.synced_folder "./html", "/var/www/html"  
+    web01.vm.network :private_network, ip:"192.168.100.101"
+    web01.vm.provider "virtualbox" do |vb|
+  web01.vm.provision "shell", inline: <<-SHELL
+    sudo apt-get update
+    sudo apt-get -y install apache2 
+  SHELL
+  end
+end
+
+  config.vm.define "web02" do |web02|
+    web02.vm.box = "ubuntu/xenial64"
+    web02.vm.synced_folder "./html", "/var/www/html"  
+    web02.vm.network :private_network, ip:"192.168.100.102"
+    web02.vm.provider "virtualbox" do |vb|
+  web02.vm.provision "shell", inline: <<-SHELL
+    sudo apt-get update
+    sudo apt-get -y install apache2 
+  SHELL
+  end
+end
+
+  config.vm.define "web03" do |web03|
+    web03.vm.box = "ubuntu/xenial64"
+    web03.vm.network "forwarded_port", guest:80, host:8083, auto_correct: true
+    web03.vm.network :private_network, ip:"192.168.100.103"
+    web03.vm.provider "virtualbox" do |vb|
+  web03.vm.provision "shell", inline: <<-SHELL
+    sudo apt-get update
+    sudo apt-get -y install nginx
+  SHELL
+  end
+end
+
+end
