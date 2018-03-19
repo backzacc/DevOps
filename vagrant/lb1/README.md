@@ -17,7 +17,7 @@ This configuration uses:
 * web01 - 192.168.100.101 
 * web02 - 192.168.100.102
 * web03 - 192.168.100.103
-# How to install?
+# Installation?
 1. Download or clone the repository
 1. cd into the lb1 path
 2. $ vagrant up
