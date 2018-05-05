@@ -1,0 +1,91 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+  creationTimestamp: '2018-05-05T17:42:54Z'
+  generation: 2
+  labels:
+    app: my-wordtest
+  name: my-wordtest
+  namespace: pripara
+  resourceVersion: '25435'
+  selfLink: /apis/apps.openshift.io/v1/namespaces/pripara/deploymentconfigs/my-wordtest
+  uid: bd8656c8-508b-11e8-8c34-2e6b1c10b719
+spec:
+  replicas: 1
+  selector:
+    deploymentconfig: my-wordtest
+  strategy:
+    activeDeadlineSeconds: 21600
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: my-wordtest
+        deploymentconfig: my-wordtest
+    spec:
+      containers:
+        - image: >-
+            172.30.1.1:5000/pripara/my-wordtest@sha256:b63facdfbaf3cc4b997afca59290c4b63f817033e7ad6394b4f907f2eb246103
+          imagePullPolicy: Always
+          name: my-wordtest
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+            - containerPort: 8443
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+  test: false
+  triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - my-wordtest
+        from:
+          kind: ImageStreamTag
+          name: 'my-wordtest:latest'
+          namespace: pripara
+        lastTriggeredImage: >-
+          172.30.1.1:5000/pripara/my-wordtest@sha256:b63facdfbaf3cc4b997afca59290c4b63f817033e7ad6394b4f907f2eb246103
+      type: ImageChange
+    - type: ConfigChange
+status:
+  availableReplicas: 1
+  conditions:
+    - lastTransitionTime: '2018-05-05T17:45:24Z'
+      lastUpdateTime: '2018-05-05T17:45:24Z'
+      message: Deployment config has minimum availability.
+      status: 'True'
+      type: Available
+    - lastTransitionTime: '2018-05-05T17:45:25Z'
+      lastUpdateTime: '2018-05-05T17:45:25Z'
+      message: replication controller "my-wordtest-1" successfully rolled out
+      reason: NewReplicationControllerAvailable
+      status: 'True'
+      type: Progressing
+  details:
+    causes:
+      - type: ConfigChange
+    message: config change
+  latestVersion: 1
+  observedGeneration: 2
+  readyReplicas: 1
+  replicas: 1
+  unavailableReplicas: 0
+  updatedReplicas: 1
