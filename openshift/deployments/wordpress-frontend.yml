@@ -1,0 +1,93 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+  creationTimestamp: '2018-05-06T13:13:40Z'
+  generation: 2
+  labels:
+    app: wordpress-frontend
+  name: wordpress-frontend
+  namespace: lb3-wordpress
+  resourceVersion: '2102'
+  selfLink: >-
+    /apis/apps.openshift.io/v1/namespaces/lb3-wordpress/deploymentconfigs/wordpress-frontend
+  uid: 4ba6b973-512f-11e8-b302-96be9e034501
+spec:
+  replicas: 1
+  selector:
+    deploymentconfig: wordpress-frontend
+  strategy:
+    activeDeadlineSeconds: 21600
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: wordpress-frontend
+        deploymentconfig: wordpress-frontend
+    spec:
+      containers:
+        - image: >-
+            172.30.1.1:5000/lb3-wordpress/wordpress-frontend@sha256:9e9effc0b2e612ab4cd883a5ee38765736f3010a9543922fb9b883829c5bdbcc
+          imagePullPolicy: Always
+          name: wordpress-frontend
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+            - containerPort: 8443
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+  test: false
+  triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - wordpress-frontend
+        from:
+          kind: ImageStreamTag
+          name: 'wordpress-frontend:latest'
+          namespace: lb3-wordpress
+        lastTriggeredImage: >-
+          172.30.1.1:5000/lb3-wordpress/wordpress-frontend@sha256:9e9effc0b2e612ab4cd883a5ee38765736f3010a9543922fb9b883829c5bdbcc
+      type: ImageChange
+    - type: ConfigChange
+status:
+  availableReplicas: 1
+  conditions:
+    - lastTransitionTime: '2018-05-06T13:16:26Z'
+      lastUpdateTime: '2018-05-06T13:16:26Z'
+      message: Deployment config has minimum availability.
+      status: 'True'
+      type: Available
+    - lastTransitionTime: '2018-05-06T13:16:25Z'
+      lastUpdateTime: '2018-05-06T13:16:27Z'
+      message: replication controller "wordpress-frontend-1" successfully rolled out
+      reason: NewReplicationControllerAvailable
+      status: 'True'
+      type: Progressing
+  details:
+    causes:
+      - type: ConfigChange
+    message: config change
+  latestVersion: 1
+  observedGeneration: 2
+  readyReplicas: 1
+  replicas: 1
+  unavailableReplicas: 0
+  updatedReplicas: 1
+

@@ -1,0 +1,139 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  annotations:
+    template.alpha.openshift.io/wait-for-ready: 'true'
+  creationTimestamp: '2018-05-06T13:14:27Z'
+  generation: 2
+  labels:
+    app: mysql-persistent
+    template: mysql-persistent-template
+  name: wordpress-mysql
+  namespace: lb3-wordpress
+  resourceVersion: '1909'
+  selfLink: >-
+    /apis/apps.openshift.io/v1/namespaces/lb3-wordpress/deploymentconfigs/wordpress-mysql
+  uid: 67aed9a8-512f-11e8-b302-96be9e034501
+spec:
+  replicas: 1
+  selector:
+    name: wordpress-mysql
+  strategy:
+    activeDeadlineSeconds: 21600
+    recreateParams:
+      timeoutSeconds: 600
+    resources: {}
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        name: wordpress-mysql
+    spec:
+      containers:
+        - env:
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  key: database-user
+                  name: wordpress-mysql
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: database-password
+                  name: wordpress-mysql
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: database-root-password
+                  name: wordpress-mysql
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  key: database-name
+                  name: wordpress-mysql
+          image: >-
+            docker.io/centos/mysql-57-centos7@sha256:6b51e4675da73f1af4e72432149c42464ba0f685f5bdf68f05459c0e25e2592e
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            tcpSocket:
+              port: 3306
+            timeoutSeconds: 1
+          name: mysql
+          ports:
+            - containerPort: 3306
+              protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - '-i'
+                - '-c'
+                - >-
+                  MYSQL_PWD="$MYSQL_PASSWORD" mysql -h 127.0.0.1 -u $MYSQL_USER
+                  -D $MYSQL_DATABASE -e 'SELECT 1'
+            failureThreshold: 3
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              memory: 512Mi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+            - mountPath: /var/lib/mysql/data
+              name: wordpress-mysql-data
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: wordpress-mysql-data
+          persistentVolumeClaim:
+            claimName: wordpress-mysql
+  test: false
+  triggers:
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+          - mysql
+        from:
+          kind: ImageStreamTag
+          name: 'mysql:5.7'
+          namespace: openshift
+        lastTriggeredImage: >-
+          docker.io/centos/mysql-57-centos7@sha256:6b51e4675da73f1af4e72432149c42464ba0f685f5bdf68f05459c0e25e2592e
+      type: ImageChange
+    - type: ConfigChange
+status:
+  availableReplicas: 1
+  conditions:
+    - lastTransitionTime: '2018-05-06T13:14:49Z'
+      lastUpdateTime: '2018-05-06T13:14:49Z'
+      message: Deployment config has minimum availability.
+      status: 'True'
+      type: Available
+    - lastTransitionTime: '2018-05-06T13:14:49Z'
+      lastUpdateTime: '2018-05-06T13:14:49Z'
+      message: replication controller "wordpress-mysql-1" successfully rolled out
+      reason: NewReplicationControllerAvailable
+      status: 'True'
+      type: Progressing
+  details:
+    causes:
+      - type: ConfigChange
+    message: config change
+  latestVersion: 1
+  observedGeneration: 2
+  readyReplicas: 1
+  replicas: 1
+  unavailableReplicas: 0
+  updatedReplicas: 1
+

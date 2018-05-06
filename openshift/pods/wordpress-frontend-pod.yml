@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  annotations:
+    openshift.io/deployer-pod.completed-at: '2018-05-06 13:16:26 +0000 UTC'
+    openshift.io/deployer-pod.created-at: '2018-05-06 13:16:24 +0000 UTC'
+    openshift.io/deployer-pod.name: wordpress-frontend-1-deploy
+    openshift.io/deployment-config.latest-version: '1'
+    openshift.io/deployment-config.name: wordpress-frontend
+    openshift.io/deployment.phase: Complete
+    openshift.io/deployment.replicas: '1'
+    openshift.io/deployment.status-reason: config change
+    openshift.io/encoded-deployment-config: >
+      {"kind":"DeploymentConfig","apiVersion":"v1","metadata":{"name":"wordpress-frontend","namespace":"lb3-wordpress","selfLink":"/apis/apps.openshift.io/v1/namespaces/lb3-wordpress/deploymentconfigs/wordpress-frontend","uid":"4ba6b973-512f-11e8-b302-96be9e034501","resourceVersion":"2054","generation":2,"creationTimestamp":"2018-05-06T13:13:40Z","labels":{"app":"wordpress-frontend"},"annotations":{"openshift.io/generated-by":"OpenShiftWebConsole"}},"spec":{"strategy":{"type":"Rolling","rollingParams":{"updatePeriodSeconds":1,"intervalSeconds":1,"timeoutSeconds":600,"maxUnavailable":"25%","maxSurge":"25%"},"resources":{},"activeDeadlineSeconds":21600},"triggers":[{"type":"ImageChange","imageChangeParams":{"automatic":true,"containerNames":["wordpress-frontend"],"from":{"kind":"ImageStreamTag","namespace":"lb3-wordpress","name":"wordpress-frontend:latest"},"lastTriggeredImage":"172.30.1.1:5000/lb3-wordpress/wordpress-frontend@sha256:9e9effc0b2e612ab4cd883a5ee38765736f3010a9543922fb9b883829c5bdbcc"}},{"type":"ConfigChange"}],"replicas":1,"test":false,"selector":{"deploymentconfig":"wordpress-frontend"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"wordpress-frontend","deploymentconfig":"wordpress-frontend"}},"spec":{"containers":[{"name":"wordpress-frontend","image":"172.30.1.1:5000/lb3-wordpress/wordpress-frontend@sha256:9e9effc0b2e612ab4cd883a5ee38765736f3010a9543922fb9b883829c5bdbcc","ports":[{"containerPort":8080,"protocol":"TCP"},{"containerPort":8443,"protocol":"TCP"}],"resources":{},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","imagePullPolicy":"Always"}],"restartPolicy":"Always","terminationGracePeriodSeconds":30,"dnsPolicy":"ClusterFirst","securityContext":{},"schedulerName":"default-scheduler"}}},"status":{"latestVersion":1,"observedGeneration":1,"replicas":0,"updatedReplicas":0,"availableReplicas":0,"unavailableReplicas":0,"details":{"message":"config
+      change","causes":[{"type":"ConfigChange"}]},"conditions":[{"type":"Available","status":"False","lastUpdateTime":"2018-05-06T13:13:40Z","lastTransitionTime":"2018-05-06T13:13:40Z","message":"Deployment
+      config does not have minimum availability."}]}}
+  creationTimestamp: '2018-05-06T13:16:24Z'
+  generation: 2
+  labels:
+    app: wordpress-frontend
+    openshift.io/deployment-config.name: wordpress-frontend
+  name: wordpress-frontend-1
+  namespace: lb3-wordpress
+  ownerReferences:
+    - apiVersion: apps.openshift.io/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: DeploymentConfig
+      name: wordpress-frontend
+      uid: 4ba6b973-512f-11e8-b302-96be9e034501
+  resourceVersion: '2101'
+  selfLink: /api/v1/namespaces/lb3-wordpress/replicationcontrollers/wordpress-frontend-1
+  uid: ad3ea210-512f-11e8-b302-96be9e034501
+spec:
+  replicas: 1
+  selector:
+    deployment: wordpress-frontend-1
+    deploymentconfig: wordpress-frontend
+  template:
+    metadata:
+      annotations:
+        openshift.io/deployment-config.latest-version: '1'
+        openshift.io/deployment-config.name: wordpress-frontend
+        openshift.io/deployment.name: wordpress-frontend-1
+      creationTimestamp: null
+      labels:
+        app: wordpress-frontend
+        deployment: wordpress-frontend-1
+        deploymentconfig: wordpress-frontend
+    spec:
+      containers:
+        - image: >-
+            172.30.1.1:5000/lb3-wordpress/wordpress-frontend@sha256:9e9effc0b2e612ab4cd883a5ee38765736f3010a9543922fb9b883829c5bdbcc
+          imagePullPolicy: Always
+          name: wordpress-frontend
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+            - containerPort: 8443
+              protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 1
+  fullyLabeledReplicas: 1
+  observedGeneration: 2
+  readyReplicas: 1
+  replicas: 1
+
