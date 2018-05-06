@@ -1,4 +1,4 @@
-#+TITLE OPENSCHIFT ABGABE LB3 Wordpress
+#+TITLE: OPENSCHIFT ABGABE LB3 Wordpress
 * Basis
 Openshift Projekt name : lb3-wordpress
 * MYSQL
