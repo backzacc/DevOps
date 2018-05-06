@@ -2,18 +2,15 @@
 * Basis
 Openshift Projekt name : lb3-wordpress
 * MYSQL
-** Name: wordpress-mysql
-** Image: Mariadb
-** User; wordpress
-** PW: wordpress
-** root pw: wordpress
-** db name: wordpress
+- Name: wordpress-mysql
+- Image: Mariadb
+- User; wordpress
+- PW: wordpress
+- root pw: wordpress
+- db name: wordpress
 * WORDPRESS FRONTED
-** Name; wordpress-fron
-** Basis
+- Name; wordpress-fron
+- Basis
 php 7.1
-** git repo
+- git repo
   https://github.com/WordPress/WordPress.git 
-** 
-** 
-
