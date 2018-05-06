@@ -1,0 +1,50 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftWebConsole
+  creationTimestamp: '2018-05-06T13:13:40Z'
+  labels:
+    app: wordpress-frontend
+  name: wordpress-frontend
+  namespace: lb3-wordpress
+  resourceVersion: '1742'
+  selfLink: >-
+    /apis/build.openshift.io/v1/namespaces/lb3-wordpress/buildconfigs/wordpress-frontend
+  uid: 4ba64dda-512f-11e8-b302-96be9e034501
+spec:
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'wordpress-frontend:latest'
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    git:
+      ref: master
+      uri: 'https://github.com/WordPress/WordPress.git'
+    type: Git
+  strategy:
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: 'php:7.1'
+        namespace: openshift
+    type: Source
+  triggers:
+    - imageChange:
+        lastTriggeredImageID: >-
+          docker.io/centos/php-71-centos7@sha256:de61155b2313c2507704c313be6048b6812bc3e55f82dc796053ff3cb46cd804
+      type: ImageChange
+    - type: ConfigChange
+    - generic:
+        secret: cd2d66729b2c3d67
+      type: Generic
+    - github:
+        secret: e4d6f277a40d1e58
+      type: GitHub
+status:
+  lastVersion: 1
+
