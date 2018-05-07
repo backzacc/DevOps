@@ -1,4 +1,6 @@
 #+TITLE: OPENSCHIFT ABGABE LB3 Wordpress
+* What is it?
+  Simple Wordpress and MariaDB server Configs for Wordpress on the Openshift platform
 * Basis
 Openshift Projekt name : lb3-wordpress
 * MYSQL
