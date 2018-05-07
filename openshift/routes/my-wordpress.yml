@@ -1,0 +1,31 @@
+ apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  creationTimestamp: '2018-05-07T06:24:29Z'
+  labels:
+    app: jenkins-persistent
+    template: jenkins-persistent-template
+  name: bings
+  namespace: lb3-wordpress
+  resourceVersion: '14799'
+  selfLink: /apis/route.openshift.io/v1/namespaces/lb3-wordpress/routes/bings
+  uid: 4c269f6f-51bf-11e8-a3f7-36d2ec723e09
+spec:
+  host: bings.com
+  port:
+    targetPort: 8080-tcp
+  to:
+    kind: Service
+    name: wordpress-front
+    weight: 100
+  wildcardPolicy: None
+status:
+  ingress:
+    - conditions:
+        - lastTransitionTime: '2018-05-07T06:24:29Z'
+          status: 'True'
+          type: Admitted
+      host: bings.com
+      routerName: router
+      wildcardPolicy: None
+
