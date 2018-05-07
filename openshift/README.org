@@ -1,18 +1,18 @@
 #+TITLE: OPENSCHIFT ABGABE LB3 Wordpress
 * What is it?
-  Simple Wordpress and MariaDB server Configs for Wordpress on the Openshift platform
+  Simple Wordpress and MariaDB server configs for the Openshift platform
 * Basis
 Openshift Projekt name : lb3-wordpress
 * MYSQL
 - Name: wordpress-mysql
-- Image: Mariadb
+- Image: centos/mariadb-102-centos7
 - User; wordpress
 - PW: wordpress
 - root pw: wordpress
 - db name: wordpress
 * WORDPRESS FRONTED
 - Name; wordpress-fron
-- Basis
-php 7.1
+- Basis image: php 7.1
+- Image-Name: lb3-wordpress/wordpress-front 
 - git repo
   https://github.com/WordPress/WordPress.git 
